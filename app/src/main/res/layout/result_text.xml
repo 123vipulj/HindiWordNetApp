@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/rounded_draw_for_def"
+    android:elevation="5dp">
+
+    <Button
+        android:id="@+id/show_moreBtn"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="2dp"
+        android:background="#fff"
+        android:elevation="5dp"
+        android:text="अधिक देखें "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtExamples"
+        app:layout_constraintStart_toStartOf="@+id/txtExamples"
+        app:layout_constraintTop_toBottomOf="@+id/txtExamples" />
+
+    <TextView
+        android:id="@+id/txtGloss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="#0C692E"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/txtNouns"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtNouns"
+        app:layout_constraintTop_toBottomOf="@+id/txtNouns" />
+
+    <TextView
+        android:id="@+id/txtExamples"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="10dp"
+        android:text="TextView"
+        android:textColor="#F5A32E"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/txtGloss"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtGloss"
+        app:layout_constraintTop_toBottomOf="@+id/txtGloss" />
+
+    <TextView
+        android:id="@+id/txtNouns"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="2dp"
+        android:background="#8BC34A"
+        android:text="TextView"
+        android:textColor="#FF5722"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">HindiWordNetApp</string>
+    <string name="khoje">खोजे</string>
+    <string name="recentword">पूर्व में खोजे गए शब्द</string>
+    <string name="error">त्रुटि के लिए</string>
+    <string name="contact">सहयोग करें</string>
+    <string name="more_infos">लाइसेंस</string>
+    <string name="hello_worldRed"><![CDATA[<b>CREDIT</b> <br><br>
+     यह एप्लीकेशन ओपन सोर्स के भाग का इस्तेमाल करता है। आप उनके ओपन सोर्स प्रोजेक्ट साथ में लाइसेंस की जानकारी नीचे देख सकते है। <br><br>
+
+        <font size="3" color="#ff1e9d"><b>HindiWordnet Api</b></font>
+        <br>
+        <a href="http://www.cfilt.iitb.ac.in/wordnet/webhwn/downloaderInfo.php"><i>http://www.cfilt.iitb.ac.in/wordnet/webhwn/downloaderInfo.php</i></a>
+        <br><br>
+         <a href="http://www.cfilt.iitb.ac.in/wordnet/webhwn/API_downloaderInfo.php"> <i>http://www.cfilt.iitb.ac.in/wordnet/webhwn/API_downloaderInfo.php</i></a>
+       <br><br>
+
+    <font color=#000000><b>This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.\n
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.</b></font>]]></string>
+
+</resources>
