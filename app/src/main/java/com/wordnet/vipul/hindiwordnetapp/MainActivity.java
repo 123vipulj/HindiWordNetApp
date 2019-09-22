@@ -3,19 +3,21 @@ package com.wordnet.vipul.hindiwordnetapp;
 import android.content.Context;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.wordnet.vipul.hindiwordnetapp.Adapter.AdapterSearchedText;
 import com.wordnet.vipul.hindiwordnetapp.Adapter.AdapterSelectedWord;
 import com.wordnet.vipul.hindiwordnetapp.Adapter.CustomItemClickListener;
@@ -63,16 +65,25 @@ public class MainActivity extends AppCompatActivity {
     List<AllWordDb> wordDbList;
     List<HelperDict> helperDictList = new ArrayList<>();
 
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FlowManager.init(this);
 
+        // ads initialization
+        MobileAds.initialize(this);
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         recyclerView = findViewById(R.id.searchedTextResult);
         searchText = findViewById(R.id.searchView);
 
-
+        // if user close the button ,string will clear
         searchText.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
@@ -84,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // search string based on the character
         RxSearchObservable.fromView(searchText)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .filter(new Predicate<String>() {
@@ -107,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // method for hindiword net initialization
     public void demonstration(String lemma) throws IOException {
         long[] synsetOffsets;
 
@@ -237,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // extract noun from lemma
     public String nounsExtracter(String nouns){
         int firstSubStrings = nouns.indexOf("[");
         int secondSubStrings = nouns.indexOf("]");
@@ -257,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
         return tmp;
     }
 
+    // highlight lemma string in sentences
     private SpannableString highlightString(String input,String orgStr) {
         //Get the text from text view and create a spannable string
         SpannableString spannableString = new SpannableString(orgStr);
