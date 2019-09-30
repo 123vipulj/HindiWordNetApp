@@ -2,11 +2,11 @@ package com.wordnet.vipul.hindiwordnetapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.wordnet.vipul.hindiwordnetapp.Adapter.AdapterRecents;
 import com.wordnet.vipul.hindiwordnetapp.DatabaseUtil.RecentDB;
@@ -34,7 +34,7 @@ public class Recents extends AppCompatActivity {
 
         List<RecentDB> wordDbList = SQLite.select(RecentDB_Table.recent_word).from(RecentDB.class).queryList();
 
-        adapterRecents = new AdapterRecents(wordDbList);
+        adapterRecents = new AdapterRecents(wordDbList, this);
         recyclerViewRecents = findViewById(R.id.recentRecyler);
         recyclerViewRecents.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewRecents.setAdapter(adapterRecents);

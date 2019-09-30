@@ -2,7 +2,11 @@ package com.wordnet.vipul.hindiwordnetapp;
 
 import android.content.Context;
 
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -34,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import es.dmoral.toasty.Toasty;
 import in.ac.iitb.cfilt.jhwnl.JHWNLException;
 import in.ac.iitb.cfilt.jhwnl.JHWNLRuntimeException;
 import in.ac.iitb.cfilt.jhwnl.data.IndexWord;
@@ -67,11 +73,21 @@ public class MainActivity extends AppCompatActivity {
 
     private AdView mAdView;
 
+    SharedPreferences pref ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FlowManager.init(this);
+
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0);
+
+        if (pref.getBoolean("first_time", true) == true){
+            showWarning();
+        }
+
+
 
         // ads initialization
         MobileAds.initialize(this);
@@ -79,6 +95,27 @@ public class MainActivity extends AppCompatActivity {
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+        // mAdView.setVisibility(View.INVISIBLE);
+
+        mAdView.setAdListener(new AdListener(){
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toasty.warning(MainActivity.this, "Ads Loaded !!", Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                Toasty.warning(MainActivity.this, "Ads Failed to Load!!" + i, Toasty.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Toasty.warning(MainActivity.this, "Ads Opend !!", Toasty.LENGTH_SHORT).show();
+            }
+        });
 
         recyclerView = findViewById(R.id.searchedTextResult);
         searchText = findViewById(R.id.searchView);
@@ -142,14 +179,48 @@ public class MainActivity extends AppCompatActivity {
 
             for ( int k = 0;k < size;k++ ) {
                 String nouns = String.valueOf(synsetArray[k]);
+                String hypernym = "";
+                String onToNode = "";
+
+                Pointer[] pointers = synsetArray[k].getPointers();
+                System.out.println("Synset Num Pointers:" + pointers.length);
+
+                for (int j = 0; j < pointers.length; j++) {
+                    if(pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
+
+                        onToNode =   "[सत्ता मीमांसा] : \n..."  + Dictionary.getInstance().
+                                getOntoSynset(pointers[j].getOntoPointer()).getOntoNodes().
+                                replaceAll(";","\n...") + "\n";
+
+                    } else {
+                        if (pointers[j].getTargetSynset() != null){
+
+                            if (pointers[j].getTargetSynset().getGloss() == null){
+
+                            }else {
+                                hypernym = "[सामान्य शब्द] : \n"  + nounsExtracter(String.valueOf(pointers[j].getTargetSynset()))
+                                        + "\n" + pointers[j].getTargetSynset().getGloss()
+                                        .replaceAll("/","\n").replace(":","\n")
+                                        +"\n";
+
+                            }
+                        }
+
+                        /*
+                        * null pointer happen when hypernym is null whatever the case such type rakam in hindi
+                        * */
+                       // System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset().getGloss().replace(":", "\n"));
+
+                    }
+                }
 
                 SpannableString finalNouns = highlightString(lemma,nounsExtracter(nouns));
                 SpannableString finalGloss = highlightString(lemma,splitGloss(synsetArray[k].getGloss()));
                 SpannableString finalExamples = highlightString(lemma,splitExample(synsetArray[k].getGloss()).replace("/","\n"));
+                SpannableString finalHyponym = highlightString(lemma, hypernym);
+                SpannableString finalonToNode = highlightString(lemma, onToNode);
 
-
-
-                helperDictList.add(new HelperDict(finalNouns,finalGloss,finalExamples));
+                helperDictList.add(new HelperDict(finalNouns,finalGloss,finalExamples, finalHyponym, finalonToNode));
 
                 recyclerViewRes = findViewById(R.id.resultRecycler);
                 AdapterSelectedWord adapterSelectedWord = new AdapterSelectedWord(MainActivity.this,helperDictList);
@@ -158,22 +229,6 @@ public class MainActivity extends AppCompatActivity {
                 recyclerViewRes.setLayoutManager(layoutManager);
                 adapterSelectedWord.notifyDataSetChanged();
 
-                Pointer[] pointers = synsetArray[k].getPointers();
-                System.out.println("Synset Num Pointers:" + pointers.length);
-
-                for (int j = 0; j < pointers.length; j++) {
-                    if(pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
-                        System.out.println(pointers[j].getType() + " : "  + Dictionary.getInstance().getOntoSynset(pointers[j].getOntoPointer()).getOntoNodes());
-                    } else {
-                        System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset());
-
-                        /*
-                        * null pointer happen when hyponym is null whatever the case such type rakam in hindi
-                        * */
-                       // System.out.println(pointers[j].getType() + " : "  + pointers[j].getTargetSynset().getGloss().replace(":", "\n"));
-
-                    }
-                }
 
             }
 
@@ -271,6 +326,10 @@ public class MainActivity extends AppCompatActivity {
         return tmp;
     }
 
+//    public String hyponymExtracter(String hypo){
+//
+//    }
+
     // highlight lemma string in sentences
     private SpannableString highlightString(String input,String orgStr) {
         //Get the text from text view and create a spannable string
@@ -352,6 +411,23 @@ public class MainActivity extends AppCompatActivity {
 
             }
         };
+    }
+
+    public void showWarning(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("संदेश");
+        builder.setMessage("सर्च के लिए हिंदी इनपुट टूल कीबॉर्ड का ही इस्तेमाल करें और बाकी हिंदी कीबोर्ड का इस्तेमाल करके भी देख सकते है | ");
+        builder.setPositiveButton("ठीक है", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = pref.edit();
+                editor.putBoolean("first_time", false);
+                editor.apply();
+
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 
 

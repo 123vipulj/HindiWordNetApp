@@ -1,7 +1,9 @@
 package com.wordnet.vipul.hindiwordnetapp.Adapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,16 @@ import com.wordnet.vipul.hindiwordnetapp.R;
 
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
+
 public class AdapterRecents extends RecyclerView.Adapter<AdapterRecents.MyViewHolder> {
 
     List<RecentDB> list;
+    Context context;
 
-    public AdapterRecents(List<RecentDB> list) {
+    public AdapterRecents(List<RecentDB> list, Context context) {
         this.list = list;
+        this.context = context;
     }
 
     @NonNull
@@ -30,6 +36,12 @@ public class AdapterRecents extends RecyclerView.Adapter<AdapterRecents.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         myViewHolder.textView.setText(list.get(i).recent_word);
+        myViewHolder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toasty.warning(context, "यह फीचर जल्द आएगा !!!", Toasty.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/onto_node_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:padding="5dp"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/hypernymtxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/onto_node_txt"
+        android:layout_alignStart="@+id/onto_node_txt"
+        android:layout_alignEnd="@+id/onto_node_txt"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="18dp"
+        android:padding="5dp"
+        android:text="TextView"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+</RelativeLayout>

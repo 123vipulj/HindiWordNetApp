@@ -1,8 +1,9 @@
 package com.wordnet.vipul.hindiwordnetapp.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,14 +37,27 @@ public class AdapterSelectedWord extends RecyclerView.Adapter<AdapterSelectedWor
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterSelectedWord.MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull AdapterSelectedWord.MyViewHolder myViewHolder, final int i) {
             myViewHolder.txtNoun.setText(helperDicts.get(i).getTxtNouns());
             myViewHolder.txtGloss.setText(helperDicts.get(i).getTxtGLoss());
-            myViewHolder.txtExample.setText("\"" +helperDicts.get(i).getTxtExamples() + "\"" );
+            myViewHolder.txtExample.setText(helperDicts.get(i).getTxtExamples());
             myViewHolder.show_moreBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toasty.warning(context, "फीचर जल्द आएगा !!!",Toasty.LENGTH_SHORT).show();
+                    AlertDialog.Builder alertShow = new AlertDialog.Builder(context);
+                    alertShow.setView(R.layout.alert_show_more);
+
+                    LayoutInflater inflater = LayoutInflater.from(context.getApplicationContext());
+                    View dialogView = inflater.inflate(R.layout.alert_show_more, null);
+                    alertShow.setView(dialogView);
+
+                    TextView onto_node_txt = dialogView.findViewById(R.id.onto_node_txt);
+                    TextView hypernym_txt = dialogView.findViewById(R.id.hypernymtxt);
+
+                    onto_node_txt.setText(helperDicts.get(i).getTxtOntoNode());
+                    hypernym_txt.setText(helperDicts.get(i).getTxtHyponym());
+
+                    alertShow.show();
                 }
             });
 

@@ -1,6 +1,6 @@
 package com.wordnet.vipul.hindiwordnetapp;
 
-import android.support.v7.widget.SearchView;
+import androidx.appcompat.widget.SearchView;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;

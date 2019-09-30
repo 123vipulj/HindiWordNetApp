@@ -4,15 +4,16 @@ import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -56,6 +57,8 @@ public class HomeActivity extends AppCompatActivity {
 
     Random random = new Random();
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +76,11 @@ public class HomeActivity extends AppCompatActivity {
         supportBTn     = findViewById(R.id.support_info);
         thought_txt    = findViewById(R.id.thought_text);
 
+        supportBTn.setVisibility(View.INVISIBLE);
+
         askPermisssion();
+
+
 
         thought_txt.setText("\""+thoughtDBS.get(randInt).thought_things+ "\"");
         thought_txt.setTypeface(TypeFaceUtil.TypeFaceSet(this,"khandbold.ttf"));
@@ -280,6 +287,8 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
+
+
 }
 
 
