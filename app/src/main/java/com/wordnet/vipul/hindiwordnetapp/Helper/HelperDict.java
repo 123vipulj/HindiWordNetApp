@@ -3,7 +3,7 @@ package com.wordnet.vipul.hindiwordnetapp.Helper;
 import android.text.SpannableString;
 
 public class HelperDict {
-    SpannableString txtNouns,txtGLoss,txtExamples,txtHyponym, txtOntoNode;
+    private SpannableString txtNouns,txtGLoss,txtExamples, txtHypernym, txtHyponym,txtHolonym, txtAttribute, txtOntoNode;
 
     public HelperDict(SpannableString txtNouns, SpannableString txtGLoss, SpannableString txtExamples, SpannableString txtHyponym, SpannableString txtOntoNode) {
         this.txtNouns = txtNouns;
@@ -11,6 +11,41 @@ public class HelperDict {
         this.txtExamples = txtExamples;
         this.txtHyponym = txtHyponym;
         this.txtOntoNode = txtOntoNode;
+    }
+
+    public HelperDict(SpannableString txtNouns, SpannableString txtGLoss, SpannableString txtExamples, SpannableString txtHypernym, SpannableString txtHyponym, SpannableString txtHolonym, SpannableString txtAttribute, SpannableString txtOntoNode) {
+        this.txtNouns = txtNouns;
+        this.txtGLoss = txtGLoss;
+        this.txtExamples = txtExamples;
+        this.txtHypernym = txtHypernym;
+        this.txtHyponym = txtHyponym;
+        this.txtHolonym = txtHolonym;
+        this.txtAttribute = txtAttribute;
+        this.txtOntoNode = txtOntoNode;
+    }
+
+    public SpannableString getTxtHypernym() {
+        return txtHypernym;
+    }
+
+    public void setTxtHypernym(SpannableString txtHypernym) {
+        this.txtHypernym = txtHypernym;
+    }
+
+    public SpannableString getTxtHolonym() {
+        return txtHolonym;
+    }
+
+    public void setTxtHolonym(SpannableString txtHolonym) {
+        this.txtHolonym = txtHolonym;
+    }
+
+    public SpannableString getTxtAttribute() {
+        return txtAttribute;
+    }
+
+    public void setTxtAttribute(SpannableString txtAttribute) {
+        this.txtAttribute = txtAttribute;
     }
 
     public SpannableString getTxtNouns() {

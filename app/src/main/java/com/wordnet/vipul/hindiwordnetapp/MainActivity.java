@@ -101,19 +101,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                Toasty.warning(MainActivity.this, "Ads Loaded !!", Toasty.LENGTH_SHORT).show();
+                //Toasty.warning(MainActivity.this, "Ads Loaded !!", Toasty.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAdFailedToLoad(int i) {
                 super.onAdFailedToLoad(i);
-                Toasty.warning(MainActivity.this, "Ads Failed to Load!!" + i, Toasty.LENGTH_SHORT).show();
+                //Toasty.warning(MainActivity.this, "Ads Failed to Load!!" + i, Toasty.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
-                Toasty.warning(MainActivity.this, "Ads Opend !!", Toasty.LENGTH_SHORT).show();
+                //Toasty.warning(MainActivity.this, "Ads Opend !!", Toasty.LENGTH_SHORT).show();
             }
         });
 
@@ -188,24 +188,22 @@ public class MainActivity extends AppCompatActivity {
                 for (int j = 0; j < pointers.length; j++) {
                     if(pointers[j].getType().equals(PointerType.ONTO_NODES)) {	// For ontology relation
 
-                        onToNode =   "[सत्ता मीमांसा] : \n..."  + Dictionary.getInstance().
+                        onToNode +=    Dictionary.getInstance().
                                 getOntoSynset(pointers[j].getOntoPointer()).getOntoNodes().
                                 replaceAll(";","\n...") + "\n";
 
-                    } else {
+                    } else if(pointers[j].getType().equals(PointerType.HYPERNYM)){
                         if (pointers[j].getTargetSynset() != null){
 
-                            if (pointers[j].getTargetSynset().getGloss() == null){
+                            if (pointers[j].getTargetSynset().getGloss() != null) {
 
-                            }else {
-                                hypernym = "[सामान्य शब्द] : \n"  + nounsExtracter(String.valueOf(pointers[j].getTargetSynset()))
+                                hypernym +=  nounsExtracter(String.valueOf(pointers[j].getTargetSynset()))
                                         + "\n" + pointers[j].getTargetSynset().getGloss()
-                                        .replaceAll("/","\n").replace(":","\n")
-                                        +"\n";
+                                        .replaceAll("/", "\n").replace(":", "\n")
+                                        + "\n";
 
                             }
                         }
-
                         /*
                         * null pointer happen when hypernym is null whatever the case such type rakam in hindi
                         * */
@@ -217,8 +215,8 @@ public class MainActivity extends AppCompatActivity {
                 SpannableString finalNouns = highlightString(lemma,nounsExtracter(nouns));
                 SpannableString finalGloss = highlightString(lemma,splitGloss(synsetArray[k].getGloss()));
                 SpannableString finalExamples = highlightString(lemma,splitExample(synsetArray[k].getGloss()).replace("/","\n"));
-                SpannableString finalHyponym = highlightString(lemma, hypernym);
-                SpannableString finalonToNode = highlightString(lemma, onToNode);
+                SpannableString finalHyponym = highlightString(lemma,"[सामान्य शब्द] : \n" + hypernym);
+                SpannableString finalonToNode = highlightString(lemma,"[सत्ता मीमांसा] : \n..."  + onToNode);
 
                 helperDictList.add(new HelperDict(finalNouns,finalGloss,finalExamples, finalHyponym, finalonToNode));
 
